@@ -46,12 +46,21 @@ class MailHandler < Chef::Handler
     }
 
     body = Erubis::Eruby.new(template).evaluate(context)
-
     Pony.mail(
       :to => options[:to_address],
-      :from => "chef-client@#{node.fqdn}",
+      :via => options[:mail_proto],
+      :from => options[:from_address],
       :subject => subject,
-      :body => body
+      :body => body,
+      :via_options => {
+        :address              => options[:mail_server]
+        :port                 => options[:mail_server_port],
+        :enable_starttls_auto => true,
+        :user_name            => options[:mail_user_name],
+        :password             => options[:mail_password],
+        :authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
+        :domain               => "localhost.localdomain" # the HELO domain provided by the client to the server
+      }
     )
   end
 end
