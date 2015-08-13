@@ -30,7 +30,7 @@ class MailHandler < Chef::Handler
 
   def report
     status = success? ? "Successful" : "Failed"
-    subject = "#{status} Chef run on node #{node.fqdn}"
+    subject = "#{status} Chef run on node #{options[:fqdn]}"
 
     Chef::Log.debug("mail handler template path: #{options[:template_path]}")
     if File.exists? options[:template_path]
