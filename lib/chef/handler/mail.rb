@@ -55,6 +55,7 @@ class MailHandler < Chef::Handler
       :via_options => {
         :address              => options[:mail_server],
         :port                 => options[:mail_server_port],
+        :tls                  => options[:use_tls],
         :enable_starttls_auto => true,
         :user_name            => options[:mail_user_name],
         :password             => options[:mail_password],
